@@ -1,0 +1,12 @@
+[alias]
+  remotes = remote -v
+  branches = branch -a 
+  tags = tag -l
+  co = checkout
+[color]
+  ui = auto
+[user]
+	name = Ted Strzalkowski
+	email = tedski@luciddg.com
+[push]
+	default = simple
