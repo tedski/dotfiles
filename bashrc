@@ -7,6 +7,17 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
+if [ -f ~/.gpg-agent-info ]; then
+  . ~/.gpg-agent-info
+  export GPG_AGENT_INFO
+  export SSH_AUTH_SOCK
+  export SSH_AGENT_PID
+  export GPG_TTY=$(tty)
+  if [[ -n "$SSH_CONNECTION" ]] ;then
+    export PINENTRY_USER_DATA="USE_CURSES=1"
+  fi
+fi
+
 function sshagent_findsockets {
     find $TMPDIR -uid $(id -u) -type s -name agent.\* 2>/dev/null
 }
@@ -74,5 +85,5 @@ function sshagent_init {
     ssh-add -l
 }
 
-alias sagent_init=sshagent_init
-sshagent_init
+#alias sagent_init=sshagent_init
+alias sagent_init=:

@@ -3,10 +3,27 @@
   branches = branch -a 
   tags = tag -l
   co = checkout
+  cleanup = "!f() { \
+    if [[ $(git rev-parse --abbrev-ref HEAD) == master ]]; then \
+      /bin/echo -n 'Fetching... ';\
+      git fetch --prune; \
+      /bin/echo '\b\b\b\b\b\b\b\b\b\b\b\b\bCleaning.';\
+      git branch --merged master \
+      | gsed -r 's/\\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g' \
+      | grep -v '* master' \
+      | xargs -n 1 git branch -d; \
+    else \
+      echo 'Not on master!' >&2; \
+      exit 2;\
+    fi }; f"
+
 [color]
-  ui = auto
+	ui = always
 [user]
 	name = Ted Strzalkowski
 	email = tedski@luciddg.com
 [push]
 	default = simple
+[core]
+	excludesfile = /Users/tedski/.gitignore_global
+  editor = /usr/local/bin/vim

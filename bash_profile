@@ -10,12 +10,16 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 	. $(brew --prefix)/etc/bash_completion
 fi
 
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
 # virtualenv wrapper
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/git
-source /usr/local/bin/virtualenvwrapper_lazy.sh
+pyenv virtualenvwrapper_lazy
 
 # Load .bashrc if it exists
 if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
+
